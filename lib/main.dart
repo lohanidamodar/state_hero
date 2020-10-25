@@ -18,6 +18,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         primaryColor: AppColors.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+        ),
+        cardTheme: CardTheme(
+          elevation: 0,
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          ),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: StadiumBorder(),
@@ -25,9 +35,9 @@ class MyApp extends StatelessWidget {
             textStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
-            )
-          )
-        )
+            ),
+          ),
+        ),
       ),
       onGenerateRoute: AppRoutes.generateRoute,
     );
