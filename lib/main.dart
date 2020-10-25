@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:state_hero/core/res/app_constants.dart';
 import 'package:state_hero/core/res/colors.dart';
+import 'package:state_hero/core/res/sizes.dart';
 import 'features/general/presentation/pages/home.dart';
 
 void main() {
@@ -16,6 +17,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         primaryColor: AppColors.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: StadiumBorder(),
+            padding: const EdgeInsets.all(16.0),
+            textStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
+            )
+          )
+        )
       ),
       home: HomePage(),
     );
