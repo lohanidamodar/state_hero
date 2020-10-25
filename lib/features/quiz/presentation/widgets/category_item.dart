@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:state_hero/core/res/sizes.dart';
 
 class CategoriItem extends StatelessWidget {
+  final Function() onTap;
   const CategoriItem({
     Key key,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -15,7 +17,7 @@ class CategoriItem extends StatelessWidget {
         child: ListTile(
           title: Text("General Knowledge"),
           trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () {},
+          onTap: onTap,
         ),
       ),
     );
