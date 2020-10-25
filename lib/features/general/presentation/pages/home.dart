@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:state_hero/core/res/routes.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -26,7 +27,7 @@ class HomePage extends StatelessWidget {
                   primary: Colors.white,
                   onPrimary: context.primaryColor,
                 ),
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, AppRoutes.categories),
               )
             ],
           ),
