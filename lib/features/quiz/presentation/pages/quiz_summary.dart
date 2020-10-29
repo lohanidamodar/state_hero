@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:state_hero/core/presentation/widgets/bordered_container.dart';
+import 'package:state_hero/core/res/routes.dart';
 import 'package:state_hero/features/quiz/data/models/quiz_summary_vm.dart';
 import 'package:build_context/build_context.dart';
 
@@ -87,7 +88,10 @@ class QuizSummaryPage extends StatelessWidget {
                         elevation: 0,
                         padding: const EdgeInsets.all(24.0)),
                     child: Text("Check Answers"),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.quizReview,
+                          arguments: vm);
+                    },
                   ),
                 ],
               )
