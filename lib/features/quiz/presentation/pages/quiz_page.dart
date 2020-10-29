@@ -101,7 +101,7 @@ class _QuizPageState extends State<QuizPage> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-        height: 60.0,
+        height: 80.0,
         alignment: Alignment.bottomCenter,
         child: ElevatedButton(
           child: Row(
