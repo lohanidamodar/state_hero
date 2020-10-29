@@ -123,7 +123,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
   }
 
   void _startQuiz() async {
-    Navigator.pushNamed(
+    Navigator.pushReplacementNamed(
       context,
       AppRoutes.quiz,
       arguments: QuizPageViewModel(

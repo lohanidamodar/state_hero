@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:state_hero/core/res/routes.dart';
 import 'package:state_hero/features/quiz/data/models/question.dart';
 import 'package:state_hero/features/quiz/data/models/quiz_page_vm.dart';
+import 'package:state_hero/features/quiz/data/models/quiz_summary_vm.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/quiz_item.dart';
 
 class QuizPage extends StatefulWidget {
@@ -14,7 +16,6 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   int _currentIndex = 0;
-  bool _correct;
   int _correctCount;
   int total;
   final Map<String, dynamic> _answers = {};
@@ -85,12 +86,9 @@ class _QuizPageState extends State<QuizPage> {
             onSelectAnswer: (answer) {
               setState(() {
                 if (question.answer == answer) {
-                  _correct = true;
                   setState(() {
                     _correctCount++;
                   });
-                } else {
-                  _correct = false;
                 }
                 _answers[question.id] = answer;
               });
@@ -99,41 +97,35 @@ class _QuizPageState extends State<QuizPage> {
             showAnswer: widget.vm.practiceMode,
           ),
           const SizedBox(height: 10.0),
-          Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(width: 10.0),
-                RaisedButton(
-                  elevation: 0,
-                  key: Key("next_button"),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(_currentIndex == (widget.vm.questions.length - 1)
-                          ? !widget.vm.practiceMode
-                              ? "Submit"
-                              : "Finish"
-                          : "Next"),
-                      const SizedBox(width: 10.0),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 16.0,
-                      )
-                    ],
-                  ),
-                  onPressed: !widget.vm.practiceMode
-                      ? _nextFinish
-                      : _answers[question.id] != null
-                          ? _nextFinish
-                          : null,
-                ),
-              ],
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+        height: 60.0,
+        alignment: Alignment.bottomCenter,
+        child: ElevatedButton(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(width: 10.0),
+              Text(_currentIndex == (widget.vm.questions.length - 1)
+                  ? !widget.vm.practiceMode
+                      ? "Submit"
+                      : "Finish"
+                  : "Next"),
+              const SizedBox(width: 10.0),
+              Icon(
+                Icons.keyboard_arrow_right,
+                size: 16.0,
+              )
+            ],
+          ),
+          onPressed: !widget.vm.practiceMode
+              ? _nextFinish
+              : _answers[question.id] != null
+                  ? _nextFinish
+                  : null,
+        ),
       ),
     );
   }
@@ -142,12 +134,22 @@ class _QuizPageState extends State<QuizPage> {
     if (_currentIndex < (widget.vm.questions.length - 1)) {
       setState(() {
         _currentIndex++;
-        _correct = null;
       });
     } else {
       _finishQuiz();
     }
   }
 
-  _finishQuiz() async {}
+  _finishQuiz() async {
+    Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.quizSummary,
+      arguments: QuizSummaryVm(
+        category: widget.vm.category,
+        questions: widget.vm.questions,
+        correctCount: _correctCount,
+        answers: _answers,
+      ),
+    );
+  }
 }
