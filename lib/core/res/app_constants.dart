@@ -1,4 +1,4 @@
 class AppConstants {
-  static const String appName = "Flutter State Hero";
+  static const String appName = "Total Trivia";
 }
   

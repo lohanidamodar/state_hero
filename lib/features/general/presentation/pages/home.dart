@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:state_hero/core/res/app_constants.dart';
 import 'package:state_hero/core/res/routes.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,8 +15,8 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             children: <Widget>[
               Text(
-                "Quiz Mania",
-                style: context.textTheme.headline2.copyWith(
+                AppConstants.appName.toUpperCase(),
+                style: context.textTheme.headline3.copyWith(
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
