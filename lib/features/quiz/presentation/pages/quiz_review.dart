@@ -55,7 +55,7 @@ class QuizReviewPage extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              "${vm.answers[question.id]}",
+              "${vm.answers[question.id] ?? 'Not Answered'}",
               style: TextStyle(
                   color: correct ? Colors.green : Colors.red,
                   fontSize: 18.0,
