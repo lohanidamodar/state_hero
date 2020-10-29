@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:state_hero/core/res/routes.dart';
+import 'package:state_hero/features/quiz/data/models/category.dart';
+import 'package:state_hero/features/quiz/data/models/question.dart';
+import 'package:state_hero/features/quiz/data/models/quiz_page_vm.dart';
 
 class QuizOptionsDialog extends StatefulWidget {
   final String title;
@@ -118,5 +122,26 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
     });
   }
 
-  void _startQuiz() async {}
+  void _startQuiz() async {
+    Navigator.pushNamed(
+      context,
+      AppRoutes.quiz,
+      arguments: QuizPageViewModel(
+        practiceMode: _practiceMode,
+        category: Category(id: "1", title: "General Knowledge"),
+        questions: [
+          Question(
+              id: "1",
+              question: "What is question?",
+              options: ["1", "2", "3", "4"],
+              answer: "2"),
+          Question(
+              id: "2",
+              question: "What is question?",
+              options: ["1", "2", "3", "4"],
+              answer: "2"),
+        ],
+      ),
+    );
+  }
 }

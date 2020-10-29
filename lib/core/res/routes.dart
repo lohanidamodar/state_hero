@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:state_hero/features/general/presentation/pages/home.dart';
 import 'package:state_hero/features/quiz/presentation/pages/categories.dart';
+import 'package:state_hero/features/quiz/presentation/pages/quiz_page.dart';
 
 class AppRoutes {
   static const String home = "home";
   static const String categories = "categories";
+  static const String quiz = "quiz";
 
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case quiz:
+        return _buildRoute(settings, QuizPage(vm: settings.arguments,));
       case categories:
         return _buildRoute(settings, CategoriesPage());
       case "/":

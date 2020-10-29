@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:state_hero/core/res/routes.dart';
+import 'package:state_hero/features/quiz/data/models/category.dart';
+import 'package:state_hero/features/quiz/data/models/question.dart';
+import 'package:state_hero/features/quiz/data/models/quiz_page_vm.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/category_item.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/quiz_options_dialog.dart';
 
@@ -32,7 +36,9 @@ class CategoriesPage extends StatelessWidget {
         builder: (_) => QuizOptionsDialog(
           title: title,
         ),
-        onClosing: () {},
+        onClosing: () {
+          
+        },
       ),
     );
   }
