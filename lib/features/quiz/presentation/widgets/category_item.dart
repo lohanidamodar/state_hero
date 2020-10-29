@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:state_hero/core/presentation/widgets/bordered_container.dart';
 
 class CategoriItem extends StatelessWidget {
   final Function() onTap;
@@ -9,10 +10,12 @@ class CategoriItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text("General Knowledge"),
-      trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: onTap,
+    return BorderedContainer(
+      child: ListTile(
+        title: Text("General Knowledge"),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: onTap,
+      ),
     );
   }
 }
