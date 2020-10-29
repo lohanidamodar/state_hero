@@ -26,6 +26,8 @@ class HomePage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   onPrimary: context.primaryColor,
+                  elevation: 0,
+                  padding: const EdgeInsets.all(24.0)
                 ),
                 onPressed: () => Navigator.pushNamed(context, AppRoutes.categories),
               )
