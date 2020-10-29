@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:build_context/build_context.dart';
-import 'package:state_hero/core/res/routes.dart';
-import 'package:state_hero/features/quiz/data/models/category.dart';
-import 'package:state_hero/features/quiz/data/models/question.dart';
-import 'package:state_hero/features/quiz/data/models/quiz_page_vm.dart';
+import 'package:state_hero/core/presentation/widgets/widgets.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/category_item.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/quiz_options_dialog.dart';
 
@@ -11,20 +7,28 @@ class CategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.primaryColor,
       appBar: AppBar(
         title: Text('Choose a Category'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(32.0),
-        children: <Widget>[
-          CategoriItem(
-            onTap: () {
-              _categoryPressed(context, "General Knowledge");
-            },
-          ),
-          CategoriItem(),
-        ],
+      body: BorderedContainer(
+        child: ListView(
+          children: <Widget>[
+            CategoriItem(
+              onTap: () {
+                _categoryPressed(context, "General Knowledge");
+              },
+            ),
+            Divider(
+              height: 0.5,
+              thickness: 0.5,
+            ),
+            CategoriItem(),
+            Divider(
+              height: 0.5,
+              thickness: 0.5,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -36,9 +40,7 @@ class CategoriesPage extends StatelessWidget {
         builder: (_) => QuizOptionsDialog(
           title: title,
         ),
-        onClosing: () {
-          
-        },
+        onClosing: () {},
       ),
     );
   }

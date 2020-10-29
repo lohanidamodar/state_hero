@@ -54,7 +54,6 @@ class _QuizPageState extends State<QuizPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           LinearProgressIndicator(
-            backgroundColor: Theme.of(context).primaryColor,
             value: (_currentIndex + 1) / widget.vm.questions.length,
           ),
           Padding(

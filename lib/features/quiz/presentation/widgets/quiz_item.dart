@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:state_hero/core/presentation/widgets/widgets.dart';
 import 'package:state_hero/features/quiz/data/models/question.dart';
 
 class QuizItem extends StatelessWidget {
@@ -51,11 +52,9 @@ class QuizItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        ...options.map((option) => Container(
+        ...options.map((option) => BorderedContainer(
               color: getColor(context, question, option),
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-              ),
+              padding: const EdgeInsets.all(0),
               margin: const EdgeInsets.symmetric(
                 vertical: 4.0,
                 horizontal: 0,
