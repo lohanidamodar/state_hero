@@ -131,15 +131,18 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
         category: Category(id: "1", title: "General Knowledge"),
         questions: [
           Question(
-              id: "1",
-              question: "What is question?",
-              options: ["1", "2", "3", "4"],
-              answer: "2"),
+            id: "1",
+            question:
+                "What kind of animal was Harambe, who was shot after a child fell into it's enclosure at the Cincinnati Zoo?",
+            options: ["Tiger", "Gorilla", "Panda", "Crocodile"],
+            answer: "Gorilla",
+          ),
           Question(
-              id: "2",
-              question: "What is question?",
-              options: ["1", "2", "3", "4"],
-              answer: "2"),
+            id: "2",
+            question: "What geomertic shape is generally used for stop signs?",
+            options: ["Octagon", "Hexagon", "Circle", "Triangle"],
+            answer: "Octagon",
+          ),
         ],
       ),
     );
