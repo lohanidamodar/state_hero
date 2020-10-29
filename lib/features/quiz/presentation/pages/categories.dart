@@ -25,19 +25,11 @@ class CategoriesPage extends StatelessWidget {
                 _categoryPressed(context, "General Knowledge");
               },
             ),
-            Divider(
-              height: 0.5,
-              thickness: 0.5,
-            ),
             CategoriItem(
               category: Category(
                 title: "Entertainment",
                 id: "2",
               ),
-            ),
-            Divider(
-              height: 0.5,
-              thickness: 0.5,
             ),
           ],
         ),
