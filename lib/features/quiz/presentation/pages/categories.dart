@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:state_hero/core/data/services/api_service.dart';
 import 'package:state_hero/core/presentation/widgets/widgets.dart';
 import 'package:state_hero/features/quiz/data/models/category.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/category_item.dart';
@@ -13,6 +14,27 @@ class CategoriesPage extends StatelessWidget {
         title: Text('Choose a Category'),
       ),
       body: BorderedContainer(
+        color: context.primaryColor,
+        child: FutureBuilder(
+          future: ApiService().getCategories(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              List<Category> categories = snapshot.data;
+              return ListView.builder(
+                itemCount: categories.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CategoriItem(
+                    category: categories[index],
+                    onTap: () =>
+                        _categoryPressed(context, categories[index]),
+                  );
+                },
+              );
+            }
+            return CircularProgressIndicator();
+          },
+        ),
+      ), /* BorderedContainer(
         color: context.primaryColor,
         child: ListView(
           children: <Widget>[
@@ -33,16 +55,16 @@ class CategoriesPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ), */
     );
   }
 
-  _categoryPressed(BuildContext context, String title) {
+  _categoryPressed(BuildContext context, Category category) {
     showModalBottomSheet(
       context: context,
       builder: (sheetContext) => BottomSheet(
         builder: (_) => QuizOptionsDialog(
-          title: title,
+          category: category,
         ),
         onClosing: () {},
       ),

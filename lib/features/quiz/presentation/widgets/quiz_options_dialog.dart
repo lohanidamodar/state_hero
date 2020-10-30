@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:state_hero/core/data/services/api_service.dart';
 import 'package:state_hero/core/res/routes.dart';
 import 'package:state_hero/features/quiz/data/models/category.dart';
 import 'package:state_hero/features/quiz/data/models/question.dart';
 import 'package:state_hero/features/quiz/data/models/quiz_page_vm.dart';
 
 class QuizOptionsDialog extends StatefulWidget {
-  final String title;
-  const QuizOptionsDialog({Key key, this.title}) : super(key: key);
+  final Category category;
+  const QuizOptionsDialog({Key key, this.category}) : super(key: key);
 
   @override
   _QuizOptionsDialogState createState() => _QuizOptionsDialogState();
@@ -35,7 +36,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
             padding: const EdgeInsets.all(16.0),
             color: Colors.grey.shade200,
             child: Text(
-              widget.title,
+              widget.category.title,
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
@@ -123,28 +124,19 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
   }
 
   void _startQuiz() async {
-    Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.quiz,
-      arguments: QuizPageViewModel(
-        practiceMode: _practiceMode,
-        category: Category(id: "1", title: "General Knowledge"),
-        questions: [
-          Question(
-            id: "1",
-            question:
-                "What kind of animal was Harambe, who was shot after a child fell into it's enclosure at the Cincinnati Zoo?",
-            options: ["Tiger", "Gorilla", "Panda", "Crocodile"],
-            answer: "Gorilla",
-          ),
-          Question(
-            id: "2",
-            question: "What geomertic shape is generally used for stop signs?",
-            options: ["Octagon", "Hexagon", "Circle", "Triangle"],
-            answer: "Octagon",
-          ),
-        ],
-      ),
-    );
+    //get questions
+    final questions = await ApiService()
+        .getQuestion(categoryId: widget.category.id, limit: _noOfQuestions);
+    if (questions != null) {
+      Navigator.pushReplacementNamed(
+        context,
+        AppRoutes.quiz,
+        arguments: QuizPageViewModel(
+          practiceMode: _practiceMode,
+          category: Category(id: "1", title: "General Knowledge"),
+          questions: questions,
+        ),
+      );
+    }
   }
 }
