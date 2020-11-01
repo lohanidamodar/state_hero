@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:state_hero/core/data/services/api_service.dart';
+import 'package:state_hero/core/presentation/app_state.dart';
 import 'package:state_hero/core/presentation/widgets/widgets.dart';
 import 'package:state_hero/features/quiz/data/models/category.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/category_item.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/quiz_options_dialog.dart';
 import 'package:build_context/build_context.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategoriesPage extends StatelessWidget {
+class CategoriesPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final categoriesFuture = watch(categoriesProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Choose a Category'),
       ),
       body: BorderedContainer(
         color: context.primaryColor,
-        child: FutureBuilder(
-          future: ApiService().getCategories(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              List<Category> categories = snapshot.data;
-              return ListView.builder(
+        child: categoriesFuture.when(
+          loading: () => const CircularProgressIndicator(),
+          error: (erro,stack) => Container(child: Text("We have an error"),),
+          data: (categories) {
+            return ListView.builder(
                 itemCount: categories.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CategoriItem(
@@ -30,9 +32,8 @@ class CategoriesPage extends StatelessWidget {
                   );
                 },
               );
-            }
-            return CircularProgressIndicator();
-          },
+          }
+        
         ),
       ), /* BorderedContainer(
         color: context.primaryColor,

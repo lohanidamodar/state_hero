@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:state_hero/core/res/app_constants.dart';
 import 'package:state_hero/core/res/colors.dart';
 import 'package:state_hero/core/res/routes.dart';
 import 'package:state_hero/core/res/sizes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
