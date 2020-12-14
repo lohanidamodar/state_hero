@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:state_hero/core/presentation/widgets/bordered_container.dart';
 import 'package:state_hero/core/res/routes.dart';
-import 'package:state_hero/features/quiz/data/models/quiz_summary_vm.dart';
 import 'package:build_context/build_context.dart';
+import 'package:state_hero/features/quiz/presentation/notifiers/quiz_state.dart';
 
-class QuizSummaryPage extends StatelessWidget {
-  final QuizSummaryVm vm;
-  QuizSummaryPage({
-    Key key,
-    @required this.vm,
-  }) : super(key: key);
-
+class QuizSummaryPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    int correct = this.vm.correctCount;
+  Widget build(BuildContext context, ScopedReader watch) {
+    final quizState = watch(quizStateProvider);
+    int correct = quizState.correctCount;
     final TextStyle titleStyle = TextStyle(
         color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.w500);
     final TextStyle trailingStyle = TextStyle(
@@ -36,8 +32,8 @@ class QuizSummaryPage extends StatelessWidget {
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16.0),
                   title: Text("Total Questions", style: titleStyle),
-                  trailing:
-                      Text("${vm.questions.length}", style: trailingStyle),
+                  trailing: Text("${quizState.questions.length}",
+                      style: trailingStyle),
                 ),
               ),
               SizedBox(height: 10.0),
@@ -45,7 +41,8 @@ class QuizSummaryPage extends StatelessWidget {
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16.0),
                   title: Text("Score", style: titleStyle),
-                  trailing: Text("${correct / vm.questions.length * 100}%",
+                  trailing: Text(
+                      "${correct / quizState.questions.length * 100}%",
                       style: trailingStyle),
                 ),
               ),
@@ -54,7 +51,7 @@ class QuizSummaryPage extends StatelessWidget {
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16.0),
                   title: Text("Correct Answers", style: titleStyle),
-                  trailing: Text("$correct/${vm.questions.length}",
+                  trailing: Text("$correct/${quizState.questions.length}",
                       style: trailingStyle),
                 ),
               ),
@@ -64,7 +61,7 @@ class QuizSummaryPage extends StatelessWidget {
                   contentPadding: const EdgeInsets.all(16.0),
                   title: Text("Incorrect Answers", style: titleStyle),
                   trailing: Text(
-                      "${vm.questions.length - correct}/${vm.questions.length}",
+                      "${quizState.questions.length - correct}/${quizState.questions.length}",
                       style: trailingStyle),
                 ),
               ),
@@ -89,8 +86,7 @@ class QuizSummaryPage extends StatelessWidget {
                         padding: const EdgeInsets.all(24.0)),
                     child: Text("Check Answers"),
                     onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.quizReview,
-                          arguments: vm);
+                      Navigator.pushNamed(context, AppRoutes.quizReview);
                     },
                   ),
                 ],

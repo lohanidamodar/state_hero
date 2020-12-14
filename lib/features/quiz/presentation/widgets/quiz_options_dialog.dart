@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:state_hero/core/data/services/api_service.dart';
 import 'package:state_hero/core/presentation/app_state.dart';
 import 'package:state_hero/core/res/routes.dart';
-import 'package:state_hero/features/quiz/data/models/category.dart';
-import 'package:state_hero/features/quiz/data/models/question.dart';
-import 'package:state_hero/features/quiz/data/models/quiz_page_vm.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:state_hero/features/quiz/presentation/notifiers/quiz_state.dart';
 
 final _noOfQuestionProvider = StateProvider((ref)=> 10);
 final _processingProvider = StateProvider((ref)=> false);
-final _practiceModeProvider = StateProvider((ref)=> false);
+final practiceModeProvider = StateProvider((ref)=> false);
 
-class QuizOptionsDialog extends StatelessWidget {
-  final Category category;
-  const QuizOptionsDialog({Key key, this.category}) : super(key: key);
-
+class QuizOptionsDialog extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ScopedReader watch) {
+    final category = watch(quizStateProvider).category;
     return SingleChildScrollView(
       child: Consumer(
         builder: (context,watch,child){
           final _noOfQuestions = watch(_noOfQuestionProvider).state;
           final _processing = watch(_processingProvider).state;
-          final _practiceMode = watch(_practiceModeProvider).state;
+          final _practiceMode = watch(practiceModeProvider).state;
           return Column(
           children: <Widget>[
             Container(
@@ -93,7 +88,7 @@ class QuizOptionsDialog extends StatelessWidget {
               value: _practiceMode,
               title: Text("Practice Mode"),
               onChanged: (val) {
-                context.read(_practiceModeProvider).state = val;
+                context.read(practiceModeProvider).state = val;
               },
             ),
             SizedBox(height: 20.0),
@@ -117,17 +112,15 @@ class QuizOptionsDialog extends StatelessWidget {
 
   void _startQuiz(BuildContext context) async {
     //get questions
+    final quizState = context.read(quizStateProvider);
+    final category= quizState.category;
     final questions = await context.read(apiService)
         .getQuestion(categoryId: category.id, limit: context.read(_noOfQuestionProvider).state);
     if (questions != null) {
+      quizState.questions = questions;
       Navigator.pushReplacementNamed(
         context,
         AppRoutes.quiz,
-        arguments: QuizPageViewModel(
-          practiceMode: context.read(_practiceModeProvider).state,
-          category: Category(id: "1", title: "General Knowledge"),
-          questions: questions,
-        ),
       );
     }
   }

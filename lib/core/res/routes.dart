@@ -15,15 +15,11 @@ class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case quizReview:
-        return _buildRoute(settings, QuizReviewPage(vm: settings.arguments));
+        return _buildRoute(settings, QuizReviewPage());
       case quizSummary:
-        return _buildRoute(settings, QuizSummaryPage(vm: settings.arguments));
+        return _buildRoute(settings, QuizSummaryPage());
       case quiz:
-        return _buildRoute(
-            settings,
-            QuizPage(
-              vm: settings.arguments,
-            ));
+        return _buildRoute(settings, QuizPage());
       case categories:
         return _buildRoute(settings, CategoriesPage());
       case "/":

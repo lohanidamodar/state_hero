@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:state_hero/core/presentation/widgets/bordered_container.dart';
 import 'package:state_hero/features/quiz/data/models/question.dart';
-import 'package:state_hero/features/quiz/data/models/quiz_summary_vm.dart';
 import 'package:build_context/build_context.dart';
+import 'package:state_hero/features/quiz/presentation/notifiers/quiz_state.dart';
 
-class QuizReviewPage extends StatelessWidget {
-  final QuizSummaryVm vm;
-
-  const QuizReviewPage({Key key, @required this.vm}) : super(key: key);
-
+class QuizReviewPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final quizState = watch(quizStateProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Check Answers'),
@@ -20,8 +18,9 @@ class QuizReviewPage extends StatelessWidget {
         color: context.primaryColor,
         child: ListView.builder(
           padding: const EdgeInsets.all(16.0),
-          itemCount: vm.questions.length,
-          itemBuilder: _buildItem,
+          itemCount: quizState.questions.length,
+          itemBuilder: (context, index) =>
+              _buildItem(quizState.questions[index], quizState),
         ),
       ),
       bottomNavigationBar: Padding(
@@ -37,9 +36,8 @@ class QuizReviewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(BuildContext context, int index) {
-    Question question = vm.questions[index];
-    bool correct = question.answer == vm.answers[question.id];
+  Widget _buildItem(Question question, QuizState quizState) {
+    bool correct = question.answer == quizState.answers[question.id];
     return BorderedContainer(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,7 +53,7 @@ class QuizReviewPage extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              "${vm.answers[question.id] ?? 'Not Answered'}",
+              "${quizState.answers[question.id] ?? 'Not Answered'}",
               style: TextStyle(
                   color: correct ? Colors.green : Colors.red,
                   fontSize: 18.0,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:state_hero/core/data/services/api_service.dart';
 import 'package:state_hero/core/presentation/app_state.dart';
 import 'package:state_hero/core/presentation/widgets/widgets.dart';
-import 'package:state_hero/features/quiz/data/models/category.dart';
+import 'package:state_hero/features/quiz/presentation/notifiers/quiz_state.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/category_item.dart';
 import 'package:state_hero/features/quiz/presentation/widgets/quiz_options_dialog.dart';
 import 'package:build_context/build_context.dart';
@@ -19,22 +18,25 @@ class CategoriesPage extends ConsumerWidget {
       body: BorderedContainer(
         color: context.primaryColor,
         child: categoriesFuture.when(
-          loading: () => const CircularProgressIndicator(),
-          error: (erro,stack) => Container(child: Text("We have an error"),),
-          data: (categories) {
-            return ListView.builder(
+            loading: () => const CircularProgressIndicator(),
+            error: (erro, stack) => Container(
+                  child: Text("We have an error"),
+                ),
+            data: (categories) {
+              return ListView.builder(
                 itemCount: categories.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CategoriItem(
                     category: categories[index],
-                    onTap: () =>
-                        _categoryPressed(context, categories[index]),
+                    onTap: () {
+                      context.read(quizStateProvider).category =
+                          categories[index];
+                      return _categoryPressed(context);
+                    },
                   );
                 },
               );
-          }
-        
-        ),
+            }),
       ), /* BorderedContainer(
         color: context.primaryColor,
         child: ListView(
@@ -60,13 +62,11 @@ class CategoriesPage extends ConsumerWidget {
     );
   }
 
-  _categoryPressed(BuildContext context, Category category) {
+  _categoryPressed(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (sheetContext) => BottomSheet(
-        builder: (_) => QuizOptionsDialog(
-          category: category,
-        ),
+        builder: (_) => QuizOptionsDialog(),
         onClosing: () {},
       ),
     );
